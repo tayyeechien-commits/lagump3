@@ -2,7 +2,7 @@
 <html lang="ms">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Pemain MP3 Interaktif - Lagu Kebangsaan Malaysia</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -40,21 +40,29 @@
                 radial-gradient(circle at 15% 20%, rgba(0, 100, 255, 0.15) 0%, transparent 45%),
                 radial-gradient(circle at 85% 80%, rgba(255, 0, 80, 0.15) 0%, transparent 45%);
             background-attachment: fixed;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .mp3-device {
             background: linear-gradient(145deg, #253047, #131a29);
-            border: 4px solid #3b4966;
+            border: 3px solid #3b4966;
             box-shadow: 
-                0 25px 50px -12px rgba(0, 0, 0, 0.8),
+                0 20px 40px -10px rgba(0, 0, 0, 0.8),
                 inset 0 2px 4px rgba(255, 255, 255, 0.2),
                 inset 0 -4px 8px rgba(0, 0, 0, 0.6);
-            border-radius: 2.5rem;
+            border-radius: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .mp3-device {
+                border-width: 4px;
+                border-radius: 2.5rem;
+            }
         }
 
         .mp3-lcd-screen {
             background: #060d17;
-            border: 3px solid #1c273a;
+            border: 2px solid #1c273a;
             box-shadow: inset 0 0 15px rgba(0,0,0,0.9), 0 0 10px rgba(0, 229, 255, 0.1);
             position: relative;
             overflow: hidden;
@@ -74,6 +82,7 @@
                 3px 4px 8px rgba(0,0,0,0.5),
                 inset 1px 1px 2px rgba(255,255,255,0.2);
             transition: all 0.1s ease;
+            touch-action: manipulation;
         }
         .btn-tactile:active {
             transform: translateY(2px);
@@ -85,6 +94,7 @@
         .btn-play-big {
             background: linear-gradient(145deg, #ffcc00, #d4a000);
             box-shadow: 0 0 15px rgba(255, 204, 0, 0.4), inset 1px 1px 2px rgba(255, 255, 255, 0.5);
+            touch-action: manipulation;
         }
         .btn-play-big:active {
             transform: scale(0.95);
@@ -125,11 +135,16 @@
         }
 
         .spectrum-bar {
-            width: 6px;
+            width: 4px;
             background: #33ff66;
             height: 6px;
             transition: height 0.1s ease;
             border-radius: 2px;
+        }
+        @media (min-width: 640px) {
+            .spectrum-bar {
+                width: 6px;
+            }
         }
         .is-playing .spectrum-bar {
             animation: spectrumAnim 0.6s infinite alternate ease-in-out;
@@ -143,6 +158,7 @@
         .lyric-line {
             transition: all 0.3s ease;
             border-left: 3px solid transparent;
+            touch-action: manipulation;
         }
         .lyric-line.active {
             background: rgba(255, 204, 0, 0.15);
@@ -167,6 +183,7 @@
 
         .interactive-card {
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            touch-action: manipulation;
         }
         .interactive-card:hover {
             transform: translateY(-4px);
@@ -179,7 +196,8 @@
         .flip-card {
             background-color: transparent;
             perspective: 1000px;
-            min-height: 260px;
+            min-height: 240px;
+            touch-action: manipulation;
         }
         .flip-card-inner {
             position: relative;
@@ -199,14 +217,15 @@
             height: 100%;
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
-            border-radius: 1.5rem;
+            border-radius: 1.25rem;
         }
         .flip-card-back {
             transform: rotateY(180deg);
         }
 
         ::-webkit-scrollbar {
-            width: 6px;
+            width: 5px;
+            height: 5px;
         }
         ::-webkit-scrollbar-track {
             background: rgba(0,0,0,0.3);
@@ -217,42 +236,42 @@
         }
     </style>
 </head>
-<body class="min-h-screen pb-12 flex flex-col items-center justify-start p-2 sm:p-6">
+<body class="min-h-screen pb-12 flex flex-col items-center justify-start p-2 sm:p-4 md:p-6">
 
     <!-- ELEMEN AUDIO MP3 UTAMA & GRAMOFON SEJARAH -->
     <audio id="real-audio-player" src="negaraku.mp3" preload="auto"></audio>
     <audio id="history-audio-player" src="terang_bulan.mp3" preload="auto"></audio>
 
     <!-- Header / Navbar Top -->
-    <header class="w-full max-w-6xl flex flex-col md:flex-row justify-between items-center py-4 px-6 glass-panel rounded-2xl mb-6 border border-slate-700/50">
-        <div class="flex items-center space-x-3 mb-3 md:mb-0">
-            <div class="w-10 h-10 rounded-full bg-amber-400 text-slate-900 flex items-center justify-center font-bold text-xl shadow-lg shadow-amber-400/30">
+    <header class="w-full max-w-6xl flex flex-col md:flex-row justify-between items-center py-3 px-4 sm:px-6 glass-panel rounded-2xl mb-4 sm:mb-6 border border-slate-700/50 gap-3">
+        <div class="flex items-center space-x-3 text-center md:text-left">
+            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-amber-400 text-slate-900 flex items-center justify-center font-bold text-lg sm:text-xl shadow-lg shadow-amber-400/30 shrink-0">
                 <i class="fa-solid fa-compact-disc fa-spin" style="animation-duration: 6s;"></i>
             </div>
             <div>
-                <h1 class="font-orbitron font-bold text-xl sm:text-2xl tracking-wider text-amber-400">NEGARAKU MP3 PLAYER</h1>
-                <p class="text-xs text-slate-400">Modul Pengajaran Interaktif Lagu Kebangsaan Malaysia</p>
+                <h1 class="font-orbitron font-bold text-lg sm:text-2xl tracking-wider text-amber-400">NEGARAKU MP3 PLAYER</h1>
+                <p class="text-[10px] sm:text-xs text-slate-400">Modul Pengajaran Interaktif Lagu Kebangsaan Malaysia</p>
             </div>
         </div>
 
-        <!-- Navigation Tabs -->
-        <nav class="flex flex-wrap justify-center gap-2 bg-slate-900/80 p-1.5 rounded-xl border border-slate-700">
-            <button onclick="switchTab('player')" id="tab-player" class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-amber-400 text-slate-950 shadow-md">
+        <!-- Navigation Tabs (Scrolable pada telefon) -->
+        <nav class="w-full md:w-auto flex overflow-x-auto pb-1 md:pb-0 gap-1.5 sm:gap-2 bg-slate-900/80 p-1.5 rounded-xl border border-slate-700 no-scrollbar">
+            <button onclick="switchTab('player')" id="tab-player" class="whitespace-nowrap px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-amber-400 text-slate-950 shadow-md">
                 <i class="fa-solid fa-music mr-1"></i> Pemain MP3
             </button>
-            <button onclick="switchTab('history')" id="tab-history" class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition-all">
+            <button onclick="switchTab('history')" id="tab-history" class="whitespace-nowrap px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition-all">
                 <i class="fa-solid fa-record-vinyl mr-1 text-amber-500"></i> Sejarah MP3
             </button>
-            <button onclick="switchTab('meaning')" id="tab-meaning" class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition-all">
+            <button onclick="switchTab('meaning')" id="tab-meaning" class="whitespace-nowrap px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition-all">
                 <i class="fa-solid fa-book-open mr-1 text-yellow-400"></i> Makna Lirik
             </button>
-            <button onclick="switchTab('etiquette')" id="tab-etiquette" class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition-all">
+            <button onclick="switchTab('etiquette')" id="tab-etiquette" class="whitespace-nowrap px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition-all">
                 <i class="fa-solid fa-user-shield mr-1 text-cyan-400"></i> Etika & Undang-undang
             </button>
-            <button onclick="switchTab('identity')" id="tab-identity" class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition-all">
+            <button onclick="switchTab('identity')" id="tab-identity" class="whitespace-nowrap px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition-all">
                 <i class="fa-solid fa-heart mr-1 text-emerald-400"></i> Jati Diri
             </button>
-            <button onclick="switchTab('quiz')" id="tab-quiz" class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition-all">
+            <button onclick="switchTab('quiz')" id="tab-quiz" class="whitespace-nowrap px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition-all">
                 <i class="fa-solid fa-gamepad mr-1 text-rose-500"></i> Kuiz Interaktif
             </button>
         </nav>
@@ -262,25 +281,25 @@
     <main class="w-full max-w-6xl">
 
         <!-- ================= BAHAGIAN 1: PEMAIN MP3 RASMI & LIRIK ================= -->
-        <div id="section-player" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div id="section-player" class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
             <div class="lg:col-span-7 flex flex-col items-center">
-                <div class="mp3-device w-full max-w-md p-6 flex flex-col items-center">
-                    <div class="w-full flex justify-between items-center mb-3 text-xs font-mono text-slate-400 px-2">
+                <div class="mp3-device w-full max-w-md p-4 sm:p-6 flex flex-col items-center">
+                    <div class="w-full flex justify-between items-center mb-2 sm:mb-3 text-[11px] sm:text-xs font-mono text-slate-400 px-1 sm:px-2">
                         <span><i class="fa-solid fa-play-circle text-cyan-400"></i> REAL-AUDIO MP3-X2</span>
                         <span id="battery-status"><i class="fa-solid fa-battery-full text-emerald-400"></i> 100%</span>
                     </div>
 
                     <!-- SKRIN LCD MP3 DENGAN PAPARAN LIRIK SEGERA -->
-                    <div class="mp3-lcd-screen w-full rounded-2xl p-4 flex flex-col justify-between mb-6 min-h-[310px]">
-                        <div class="flex justify-between items-center text-xs font-mono border-b border-slate-800 pb-2 text-cyan-400 z-10">
+                    <div class="mp3-lcd-screen w-full rounded-2xl p-3 sm:p-4 flex flex-col justify-between mb-4 sm:mb-6 min-h-[260px] sm:min-h-[310px]">
+                        <div class="flex justify-between items-center text-[11px] sm:text-xs font-mono border-b border-slate-800 pb-2 text-cyan-400 z-10">
                             <span id="track-number"><i class="fa-solid fa-compact-disc"></i> TRK 01/01</span>
-                            <span id="audio-bitrate" class="bg-cyan-950 px-2 py-0.5 rounded border border-cyan-800 text-[10px]">320kbps STEREO</span>
+                            <span id="audio-bitrate" class="bg-cyan-950 px-1.5 py-0.5 rounded border border-cyan-800 text-[9px] sm:text-[10px]">320kbps</span>
                             <span id="player-state-badge" class="text-amber-400 font-bold">READY</span>
                         </div>
 
                         <!-- KAWASAN PAPARAN LIRIK REALTIME DI SKRIN LCD -->
-                        <div class="my-2 text-center flex flex-col items-center justify-center min-h-[140px] bg-slate-950/70 rounded-xl p-3 border border-slate-800/80 relative overflow-hidden">
-                            <div class="text-[10px] text-slate-500 font-mono uppercase tracking-widest mb-1 flex items-center gap-1">
+                        <div class="my-2 text-center flex flex-col items-center justify-center min-h-[120px] sm:min-h-[140px] bg-slate-950/70 rounded-xl p-2.5 sm:p-3 border border-slate-800/80 relative overflow-hidden">
+                            <div class="text-[9px] sm:text-[10px] text-slate-500 font-mono uppercase tracking-widest mb-1 flex items-center gap-1">
                                 <i class="fa-solid fa-align-center text-amber-400"></i> Paparan Lirik LCD MP3:
                             </div>
                             
@@ -293,10 +312,10 @@
                             </div>
                         </div>
 
-                        <div class="w-full flex items-end justify-center gap-1.5 h-10 my-1 z-10" id="spectrum-bars"></div>
+                        <div class="w-full flex items-end justify-center gap-1 sm:gap-1.5 h-8 sm:h-10 my-1 z-10" id="spectrum-bars"></div>
 
                         <div class="w-full mt-1 z-10">
-                            <div class="flex justify-between text-xs font-mono text-slate-300 mb-1">
+                            <div class="flex justify-between text-[11px] sm:text-xs font-mono text-slate-300 mb-1">
                                 <span id="current-time">00:00</span>
                                 <span id="total-duration">01:25</span>
                             </div>
@@ -304,29 +323,29 @@
                         </div>
                     </div>
 
-                    <div class="w-full bg-slate-900/60 p-4 rounded-2xl border border-slate-800 flex flex-col items-center gap-4">
+                    <div class="w-full bg-slate-900/60 p-3.5 sm:p-4 rounded-2xl border border-slate-800 flex flex-col items-center gap-3 sm:gap-4">
                         <div class="flex items-center justify-center gap-4 w-full">
-                            <button onclick="rewindAudio()" class="btn-tactile w-12 h-12 rounded-full text-slate-300 hover:text-white flex items-center justify-center text-lg" title="Undur 5s">
+                            <button onclick="rewindAudio()" class="btn-tactile w-11 h-11 sm:w-12 sm:h-12 rounded-full text-slate-300 hover:text-white flex items-center justify-center text-base sm:text-lg" title="Undur 5s">
                                 <i class="fa-solid fa-backward-step"></i>
                             </button>
-                            <button onclick="togglePlay()" id="btn-play-main" class="btn-play-big w-16 h-16 rounded-full text-slate-950 flex items-center justify-center text-2xl font-bold transition-transform" title="Main / Jeda">
+                            <button onclick="togglePlay()" id="btn-play-main" class="btn-play-big w-14 h-14 sm:w-16 sm:h-16 rounded-full text-slate-950 flex items-center justify-center text-xl sm:text-2xl font-bold transition-transform" title="Main / Jeda">
                                 <i class="fa-solid fa-play" id="play-icon"></i>
                             </button>
-                            <button onclick="stopAudio()" class="btn-tactile w-12 h-12 rounded-full text-slate-300 hover:text-rose-400 flex items-center justify-center text-lg" title="Hentikan">
+                            <button onclick="stopAudio()" class="btn-tactile w-11 h-11 sm:w-12 sm:h-12 rounded-full text-slate-300 hover:text-rose-400 flex items-center justify-center text-base sm:text-lg" title="Hentikan">
                                 <i class="fa-solid fa-stop"></i>
                             </button>
                         </div>
 
-                        <div class="w-full grid grid-cols-2 gap-3 pt-2 border-t border-slate-800/80 text-xs font-mono">
-                            <div class="flex items-center gap-2 bg-slate-950/80 p-2 rounded-xl border border-slate-800">
-                                <i class="fa-solid fa-volume-high text-amber-400"></i>
+                        <div class="w-full grid grid-cols-2 gap-2 sm:gap-3 pt-2 border-t border-slate-800/80 text-[11px] sm:text-xs font-mono">
+                            <div class="flex items-center gap-1.5 sm:gap-2 bg-slate-950/80 p-2 rounded-xl border border-slate-800">
+                                <i class="fa-solid fa-volume-high text-amber-400 text-xs"></i>
                                 <input type="range" id="volume-control" min="0" max="1" step="0.1" value="0.8" class="w-full accent-amber-400 h-1.5 bg-slate-800 rounded">
                             </div>
                             <div class="flex items-center justify-between bg-slate-950/80 p-2 rounded-xl border border-slate-800">
-                                <span class="text-slate-400"><i class="fa-solid fa-gauge text-cyan-400"></i> Kelajuan:</span>
-                                <select id="speed-control" onchange="changeSpeed(this.value)" class="bg-slate-900 text-amber-400 font-bold outline-none rounded px-1">
+                                <span class="text-slate-400"><i class="fa-solid fa-gauge text-cyan-400"></i> Laju:</span>
+                                <select id="speed-control" onchange="changeSpeed(this.value)" class="bg-slate-900 text-amber-400 font-bold outline-none rounded px-1 text-[11px] sm:text-xs">
                                     <option value="0.8">0.8x</option>
-                                    <option value="1.0" selected>1.0x (Normal)</option>
+                                    <option value="1.0" selected>1.0x</option>
                                     <option value="1.2">1.2x</option>
                                 </select>
                             </div>
@@ -336,59 +355,59 @@
             </div>
 
             <div class="lg:col-span-5 flex flex-col gap-4">
-                <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 shadow-xl">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-4 sm:p-5 shadow-xl">
                     <div class="flex justify-between items-center border-b border-slate-800 pb-3 mb-3">
-                        <h3 class="font-bold text-lg text-amber-400 flex items-center gap-2">
-                            <i class="fa-solid fa-quote-left"></i> Lirik Interaktif (Sains Masa MP3)
+                        <h3 class="font-bold text-base sm:text-lg text-amber-400 flex items-center gap-2">
+                            <i class="fa-solid fa-quote-left"></i> Lirik Interaktif
                         </h3>
-                        <span class="text-xs bg-amber-400/10 text-amber-400 px-2 py-1 rounded-full border border-amber-400/30">Klik baris lirik!</span>
+                        <span class="text-[10px] sm:text-xs bg-amber-400/10 text-amber-400 px-2 py-0.5 sm:py-1 rounded-full border border-amber-400/30">Tekan baris lirik!</span>
                     </div>
 
-                    <p class="text-xs text-slate-400 mb-3">Tekan mana-mana baris lirik untuk lompat terus ke timestamp audio MP3:</p>
+                    <p class="text-[11px] sm:text-xs text-slate-400 mb-3">Tekan mana-mana baris lirik untuk lompat terus ke timestamp audio MP3:</p>
 
                     <div class="space-y-1.5 font-sans" id="lyric-container">
                         <div onclick="seekToLine(0)" id="lyric-0" class="lyric-line p-2.5 rounded-xl cursor-pointer hover:bg-slate-800/60 flex justify-between items-center">
                             <div>
-                                <div class="font-semibold text-slate-100 text-sm">Negaraku</div>
-                                <div class="text-xs text-slate-400">Tanah tumpahnya darahku</div>
+                                <div class="font-semibold text-slate-100 text-xs sm:text-sm">Negaraku</div>
+                                <div class="text-[11px] sm:text-xs text-slate-400">Tanah tumpahnya darahku</div>
                             </div>
-                            <span class="text-[10px] font-mono text-slate-500 border border-slate-800 px-1.5 py-0.5 rounded">00:00</span>
+                            <span class="text-[9px] sm:text-[10px] font-mono text-slate-500 border border-slate-800 px-1.5 py-0.5 rounded">00:00</span>
                         </div>
                         <div onclick="seekToLine(1)" id="lyric-1" class="lyric-line p-2.5 rounded-xl cursor-pointer hover:bg-slate-800/60 flex justify-between items-center">
                             <div>
-                                <div class="font-semibold text-slate-100 text-sm">Rakyat hidup</div>
-                                <div class="text-xs text-slate-400">Bersatu dan maju</div>
+                                <div class="font-semibold text-slate-100 text-xs sm:text-sm">Rakyat hidup</div>
+                                <div class="text-[11px] sm:text-xs text-slate-400">Bersatu dan maju</div>
                             </div>
-                            <span class="text-[10px] font-mono text-slate-500 border border-slate-800 px-1.5 py-0.5 rounded">00:20</span>
+                            <span class="text-[9px] sm:text-[10px] font-mono text-slate-500 border border-slate-800 px-1.5 py-0.5 rounded">00:20</span>
                         </div>
                         <div onclick="seekToLine(2)" id="lyric-2" class="lyric-line p-2.5 rounded-xl cursor-pointer hover:bg-slate-800/60 flex justify-between items-center">
                             <div>
-                                <div class="font-semibold text-slate-100 text-sm">Rahmat bahagia</div>
-                                <div class="text-xs text-slate-400">Tuhan kurniakan</div>
+                                <div class="font-semibold text-slate-100 text-xs sm:text-sm">Rahmat bahagia</div>
+                                <div class="text-[11px] sm:text-xs text-slate-400">Tuhan kurniakan</div>
                             </div>
-                            <span class="text-[10px] font-mono text-slate-500 border border-slate-800 px-1.5 py-0.5 rounded">00:31</span>
+                            <span class="text-[9px] sm:text-[10px] font-mono text-slate-500 border border-slate-800 px-1.5 py-0.5 rounded">00:31</span>
                         </div>
                         <div onclick="seekToLine(3)" id="lyric-3" class="lyric-line p-2.5 rounded-xl cursor-pointer hover:bg-slate-800/60 flex justify-between items-center">
                             <div>
-                                <div class="font-semibold text-slate-100 text-sm">Raja kita</div>
-                                <div class="text-xs text-slate-400">Selamat bertakhta</div>
+                                <div class="font-semibold text-slate-100 text-xs sm:text-sm">Raja kita</div>
+                                <div class="text-[11px] sm:text-xs text-slate-400">Selamat bertakhta</div>
                             </div>
-                            <span class="text-[10px] font-mono text-slate-500 border border-slate-800 px-1.5 py-0.5 rounded">00:43</span>
+                            <span class="text-[9px] sm:text-[10px] font-mono text-slate-500 border border-slate-800 px-1.5 py-0.5 rounded">00:43</span>
                         </div>
                         <div onclick="seekToLine(4)" id="lyric-4" class="lyric-line p-2.5 rounded-xl cursor-pointer hover:bg-slate-800/60 flex justify-between items-center">
                             <div>
-                                <div class="font-semibold text-slate-100 text-sm">Rahmat bahagia, Tuhan kurniakan</div>
-                                <div class="text-xs text-slate-400">Raja kita, Selamat bertakhta</div>
+                                <div class="font-semibold text-slate-100 text-xs sm:text-sm">Rahmat bahagia, Tuhan kurniakan</div>
+                                <div class="text-[11px] sm:text-xs text-slate-400">Raja kita, Selamat bertakhta</div>
                             </div>
-                            <span class="text-[10px] font-mono text-slate-500 border border-slate-800 px-1.5 py-0.5 rounded">00:55</span>
+                            <span class="text-[9px] sm:text-[10px] font-mono text-slate-500 border border-slate-800 px-1.5 py-0.5 rounded">00:55</span>
                         </div>
                     </div>
 
                     <!-- KOTAK PAPARAN MAKSUD LIRIK REALTIME SPESIFIK -->
-                    <div id="realtime-meaning-box" class="mt-4 p-3.5 bg-gradient-to-r from-amber-950/40 via-slate-950 to-slate-900 border border-amber-500/40 rounded-2xl shadow-lg flex flex-col gap-1 transition-all">
-                        <div class="flex justify-between items-center text-[10px] font-mono text-amber-400 border-b border-amber-500/20 pb-1">
+                    <div id="realtime-meaning-box" class="mt-4 p-3 sm:p-3.5 bg-gradient-to-r from-amber-950/40 via-slate-950 to-slate-900 border border-amber-500/40 rounded-2xl shadow-lg flex flex-col gap-1 transition-all">
+                        <div class="flex justify-between items-center text-[9px] sm:text-[10px] font-mono text-amber-400 border-b border-amber-500/20 pb-1">
                             <span class="flex items-center gap-1"><i class="fa-solid fa-lightbulb text-yellow-400"></i> MAKSUD LIRIK BAHAGIAN INI:</span>
-                            <span id="meaning-line-badge" class="bg-amber-400 text-slate-950 font-bold px-1.5 py-0.5 rounded text-[9px]">BARIS 1</span>
+                            <span id="meaning-line-badge" class="bg-amber-400 text-slate-950 font-bold px-1.5 py-0.5 rounded text-[8px] sm:text-[9px]">BARIS 1</span>
                         </div>
                         <div id="meaning-display-text" class="text-xs text-slate-200 mt-1 leading-relaxed font-medium">
                             Menyeru rakyat daripada pelbagai bangsa dan agama supaya hidup bersatu padu untuk mencapai kemajuan. Ini menuntut rasa bangga dan ikrar taat setia yang tidak berbelah bahagi kepada tanah air tempat lahir kita.
@@ -400,44 +419,44 @@
         </div>
 
         <!-- ================= BAHAGIAN 2: SEJARAH (GRAMOFON MP3 INTERAKTIF) ================= -->
-        <div id="section-history" class="hidden grid-cols-1 lg:grid-cols-12 gap-6">
+        <div id="section-history" class="hidden grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
             <div class="lg:col-span-6 flex flex-col items-center">
-                <div class="gramophone-turntable w-full max-w-md rounded-3xl p-6 flex flex-col items-center relative overflow-hidden border-amber-900/60">
-                    <div class="w-full flex justify-between items-center text-amber-500 font-mono text-xs mb-4">
+                <div class="gramophone-turntable w-full max-w-md rounded-3xl p-4 sm:p-6 flex flex-col items-center relative overflow-hidden border-amber-900/60">
+                    <div class="w-full flex justify-between items-center text-amber-500 font-mono text-[11px] sm:text-xs mb-3 sm:mb-4">
                         <span><i class="fa-solid fa-compact-disc"></i> GRAMOFON SEJARAH INTERAKTIF</span>
                         <span id="gramophone-status" class="bg-amber-950 px-2 py-0.5 rounded border border-amber-800 text-amber-300">SEDIA</span>
                     </div>
 
-                    <div class="relative w-64 h-64 flex items-center justify-center my-2">
-                        <div id="history-vinyl" class="vinyl-record w-60 h-60 rounded-full flex items-center justify-center relative cursor-pointer" onclick="toggleGramophone()">
-                            <div class="w-24 h-24 rounded-full bg-gradient-to-tr from-amber-600 to-yellow-400 border-4 border-slate-900 flex flex-col items-center justify-center text-center p-1 text-slate-950 shadow-inner">
-                                <i class="fa-solid fa-crown text-base mb-0.5"></i>
-                                <span id="record-label-title" class="font-bold text-[10px] leading-tight uppercase font-orbitron">TERANG BULAN</span>
-                                <span class="text-[8px] font-mono">1957 ARCHIVE</span>
+                    <div class="relative w-52 h-52 sm:w-64 sm:h-64 flex items-center justify-center my-2">
+                        <div id="history-vinyl" class="vinyl-record w-48 h-48 sm:w-60 sm:h-60 rounded-full flex items-center justify-center relative cursor-pointer" onclick="toggleGramophone()">
+                            <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-tr from-amber-600 to-yellow-400 border-4 border-slate-900 flex flex-col items-center justify-center text-center p-1 text-slate-950 shadow-inner">
+                                <i class="fa-solid fa-crown text-sm sm:text-base mb-0.5"></i>
+                                <span id="record-label-title" class="font-bold text-[9px] sm:text-[10px] leading-tight uppercase font-orbitron">TERANG BULAN</span>
+                                <span class="text-[7px] sm:text-[8px] font-mono">1957 ARCHIVE</span>
                             </div>
                         </div>
 
-                        <div id="tone-arm" class="tone-arm absolute top-2 right-4 w-12 h-44 pointer-events-none">
-                            <div class="w-8 h-8 rounded-full bg-slate-400 border-2 border-slate-700 shadow-md"></div>
-                            <div class="w-2 h-32 bg-slate-300 ml-3 shadow-md rounded-full"></div>
-                            <div class="w-4 h-6 bg-slate-700 ml-2 rounded shadow-md border border-amber-400"></div>
+                        <div id="tone-arm" class="tone-arm absolute top-2 right-2 sm:right-4 w-10 sm:w-12 h-36 sm:h-44 pointer-events-none">
+                            <div class="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-slate-400 border-2 border-slate-700 shadow-md"></div>
+                            <div class="w-1.5 sm:w-2 h-24 sm:h-32 bg-slate-300 ml-2.5 sm:ml-3 shadow-md rounded-full"></div>
+                            <div class="w-3 sm:w-4 h-5 sm:h-6 bg-slate-700 ml-1.5 sm:ml-2 rounded shadow-md border border-amber-400"></div>
                         </div>
                     </div>
 
-                    <div class="w-full mt-6 bg-slate-950/80 p-3 rounded-2xl border border-amber-900/40 flex flex-col items-center gap-3">
-                        <button onclick="toggleGramophone()" id="btn-gramophone-play" class="w-full py-2.5 bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 font-bold rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition-all text-sm flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-circle-play text-base" id="gramophone-icon"></i> Mainkan Audio Sejarah MP3
+                    <div class="w-full mt-4 sm:mt-6 bg-slate-950/80 p-3 rounded-2xl border border-amber-900/40 flex flex-col items-center gap-3">
+                        <button onclick="toggleGramophone()" id="btn-gramophone-play" class="w-full py-2.5 bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 font-bold rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition-all text-xs sm:text-sm flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-circle-play text-sm sm:text-base" id="gramophone-icon"></i> Mainkan Audio Sejarah MP3
                         </button>
 
-                        <div class="text-xs text-amber-200/70 font-mono text-center">Pilih Piring Hitam (MP3 Sejarah):</div>
-                        <div class="grid grid-cols-3 gap-2 w-full text-xs">
-                            <button onclick="loadVinylTrack('terang')" id="btn-vinyl-terang" class="p-2 bg-slate-900 border border-amber-400 rounded-xl text-center text-amber-300 font-medium">
+                        <div class="text-[11px] sm:text-xs text-amber-200/70 font-mono text-center">Pilih Piring Hitam (MP3 Sejarah):</div>
+                        <div class="grid grid-cols-3 gap-1.5 sm:gap-2 w-full text-[11px] sm:text-xs">
+                            <button onclick="loadVinylTrack('terang')" id="btn-vinyl-terang" class="p-1.5 sm:p-2 bg-slate-900 border border-amber-400 rounded-xl text-center text-amber-300 font-medium">
                                 🎵 Terang Bulan
                             </button>
-                            <button onclick="loadVinylTrack('godsave')" id="btn-vinyl-godsave" class="p-2 bg-slate-900 border border-slate-700 hover:border-amber-400 rounded-xl text-center text-slate-300 font-medium">
+                            <button onclick="loadVinylTrack('godsave')" id="btn-vinyl-godsave" class="p-1.5 sm:p-2 bg-slate-900 border border-slate-700 hover:border-amber-400 rounded-xl text-center text-slate-300 font-medium">
                                 👑 God Save Queen
                             </button>
-                            <button onclick="loadVinylTrack('negaraku57')" id="btn-vinyl-negaraku57" class="p-2 bg-slate-900 border border-slate-700 hover:border-emerald-400 rounded-xl text-center text-emerald-300 font-medium">
+                            <button onclick="loadVinylTrack('negaraku57')" id="btn-vinyl-negaraku57" class="p-1.5 sm:p-2 bg-slate-900 border border-slate-700 hover:border-emerald-400 rounded-xl text-center text-emerald-300 font-medium">
                                 🇲🇾 Negaraku (1957)
                             </button>
                         </div>
@@ -446,15 +465,15 @@
             </div>
 
             <div class="lg:col-span-6 flex flex-col gap-4">
-                <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-xl">
-                    <h3 class="font-orbitron font-bold text-xl text-amber-400 mb-4 flex items-center gap-2">
+                <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-4 sm:p-6 shadow-xl">
+                    <h3 class="font-orbitron font-bold text-lg sm:text-xl text-amber-400 mb-3 sm:mb-4 flex items-center gap-2">
                         <i class="fa-solid fa-hourglass-start"></i> Sejarah Penciptaan Lagu Kebangsaan
                     </h3>
 
-                    <div id="history-story-card" class="bg-gradient-to-r from-amber-950/40 to-slate-900 border border-amber-500/30 rounded-2xl p-4 mb-4">
-                        <div class="text-xs font-mono text-amber-400 uppercase tracking-widest mb-1">Nota Sejarah Terpilih:</div>
-                        <h4 id="story-title" class="font-bold text-base text-white">Cadangan Tunku Abdul Rahman Putra Al-Haj</h4>
-                        <p id="story-desc" class="text-xs text-slate-300 mt-2 leading-relaxed">
+                    <div id="history-story-card" class="bg-gradient-to-r from-amber-950/40 to-slate-900 border border-amber-500/30 rounded-2xl p-3.5 sm:p-4 mb-4">
+                        <div class="text-[10px] sm:text-xs font-mono text-amber-400 uppercase tracking-widest mb-1">Nota Sejarah Terpilih:</div>
+                        <h4 id="story-title" class="font-bold text-sm sm:text-base text-white">Cadangan Tunku Abdul Rahman Putra Al-Haj</h4>
+                        <p id="story-desc" class="text-xs text-slate-300 mt-1.5 sm:mt-2 leading-relaxed">
                             Sebelum merdeka pada 1957, negara kita belum mempunyai lagu kebangsaan. Pertandingan lagu diadakan dengan 514 penyertaan, namun tiada yang sesuai. Tunku Abdul Rahman mengesyorkan irama lagu kebesaran negeri Perak iaitu <strong>Terang Bulan</strong> sebagai lagu kebangsaan.
                         </p>
                     </div>
@@ -462,22 +481,22 @@
                     <div class="space-y-3 relative pl-4 border-l-2 border-slate-800 text-xs">
                         <div class="relative">
                             <div class="absolute -left-[23px] top-0 w-3 h-3 rounded-full bg-amber-400 border-2 border-slate-900"></div>
-                            <div class="font-bold text-amber-300 text-sm">Tahun 1957</div>
+                            <div class="font-bold text-amber-300 text-xs sm:text-sm">Tahun 1957</div>
                             <p class="text-slate-400">Pencarian lagu kebangsaan rasmi bermula menjelang Kemerdekaan Persekutuan Tanah Melayu.</p>
                         </div>
                         <div class="relative">
                             <div class="absolute -left-[23px] top-0 w-3 h-3 rounded-full bg-cyan-400 border-2 border-slate-900"></div>
-                            <div class="font-bold text-cyan-300 text-sm">514 Penyertaan Diterima</div>
+                            <div class="font-bold text-cyan-300 text-xs sm:text-sm">514 Penyertaan Diterima</div>
                             <p class="text-slate-400">Pertandingan diadakan seluruh dunia, tetapi tiada irama lagu yang dinilai cukup sesuai.</p>
                         </div>
                         <div class="relative">
                             <div class="absolute -left-[23px] top-0 w-3 h-3 rounded-full bg-emerald-400 border-2 border-slate-900"></div>
-                            <div class="font-bold text-emerald-300 text-sm">Lagu "Terang Bulan" & Sajak Orang Ramai</div>
+                            <div class="font-bold text-emerald-300 text-xs sm:text-sm">Lagu "Terang Bulan" & Sajak Orang Ramai</div>
                             <p class="text-slate-400">Jawatankuasa Pemilihan mengambil sajak sumbangan awam dan disesuaikan dengan melodi Terang Bulan.</p>
                         </div>
                         <div class="relative">
                             <div class="absolute -left-[23px] top-0 w-3 h-3 rounded-full bg-rose-400 border-2 border-slate-900"></div>
-                            <div class="font-bold text-rose-300 text-sm">Malam 30 Ogos 1957 (Dataran Merdeka)</div>
+                            <div class="font-bold text-rose-300 text-xs sm:text-sm">Malam 30 Ogos 1957 (Dataran Merdeka)</div>
                             <p class="text-slate-400">Diperdedarkan buat pertama kali di Padang Kelab Selangor apabila bendera Union Jack digantikan dengan Persekutuan Tanah Melayu.</p>
                         </div>
                     </div>
@@ -485,101 +504,101 @@
             </div>
         </div>
 
-        <!-- ================= BAHAGIAN 3: MAKNA LIRIK & PENGHAYATAN (DIKEMAS KINI BESERTA SPESIFIKASI) ================= -->
+        <!-- ================= BAHAGIAN 3: MAKNA LIRIK & PENGHAYATAN ================= -->
         <div id="section-meaning" class="hidden flex-col items-center">
-            <div class="w-full max-w-4xl bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
+            <div class="w-full max-w-4xl bg-slate-900/90 border border-slate-800 rounded-3xl p-4 sm:p-6 shadow-xl space-y-4">
                 <div class="border-b border-slate-800 pb-3 flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
-                    <h3 class="font-orbitron font-bold text-xl text-yellow-400 flex items-center gap-2">
+                    <h3 class="font-orbitron font-bold text-lg sm:text-xl text-yellow-400 flex items-center gap-2">
                         <i class="fa-solid fa-book-open"></i> Maksud Lirik Lagu Negaraku (Penuh & Spesifik)
                     </h3>
-                    <span class="text-xs text-amber-400 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/30 animate-pulse">
+                    <span class="text-[10px] sm:text-xs text-amber-400 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/30 animate-pulse">
                         <i class="fa-solid fa-hand-pointer mr-1"></i> Klik Kad Untuk Menghayati!
                     </span>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 text-xs">
                     <!-- Maksud Rangkap 1 -->
-                    <div onclick="playInteractiveMeaning(0)" id="meaning-card-0" class="interactive-card cursor-pointer bg-slate-950 p-5 rounded-2xl border border-slate-800 hover:border-amber-400 flex flex-col justify-between group">
+                    <div onclick="playInteractiveMeaning(0)" id="meaning-card-0" class="interactive-card cursor-pointer bg-slate-950 p-4 sm:p-5 rounded-2xl border border-slate-800 hover:border-amber-400 flex flex-col justify-between group">
                         <div>
-                            <div class="flex justify-between items-center mb-3">
-                                <span class="bg-amber-400/10 text-amber-400 px-2.5 py-0.5 rounded-md font-mono text-[10px] border border-amber-400/30">Rangkap 1 (Baris 1 - 4)</span>
+                            <div class="flex justify-between items-center mb-2.5">
+                                <span class="bg-amber-400/10 text-amber-400 px-2 py-0.5 rounded-md font-mono text-[9px] sm:text-[10px] border border-amber-400/30">Rangkap 1 (Baris 1 - 4)</span>
                                 <span class="w-7 h-7 rounded-full bg-amber-400/10 text-amber-400 flex items-center justify-center text-xs group-hover:bg-amber-400 group-hover:text-slate-950 transition-colors">
                                     <i class="fa-solid fa-volume-high"></i>
                                 </span>
                             </div>
-                            <h4 class="font-bold text-amber-300 text-sm mb-2 group-hover:translate-x-1 transition-transform">Negaraku, Tanah tumpahnya darahku...</h4>
+                            <h4 class="font-bold text-amber-300 text-xs sm:text-sm mb-1.5 group-hover:translate-x-1 transition-transform">Negaraku, Tanah tumpahnya darahku...</h4>
                             <p class="text-slate-200 leading-relaxed text-xs font-normal">
                                 Menyeru rakyat daripada pelbagai bangsa dan agama supaya hidup bersatu padu untuk mencapai kemajuan. Ini menuntut rasa bangga dan ikrar taat setia yang tidak berbelah bahagi kepada tanah air tempat lahir kita.
                             </p>
                         </div>
-                        <div class="mt-4 text-[10px] text-amber-400/70 font-mono border-t border-slate-900 pt-2.5 flex justify-between items-center">
+                        <div class="mt-3 text-[9px] sm:text-[10px] text-amber-400/70 font-mono border-t border-slate-900 pt-2 flex justify-between items-center">
                             <span>KLIK UNTUK BUNYI FX & HIGHLIGHT</span>
                             <i class="fa-solid fa-chevron-right"></i>
                         </div>
                     </div>
 
                     <!-- Maksud Rangkap 2 -->
-                    <div onclick="playInteractiveMeaning(1)" id="meaning-card-1" class="interactive-card cursor-pointer bg-slate-950 p-5 rounded-2xl border border-slate-800 hover:border-cyan-400 flex flex-col justify-between group">
+                    <div onclick="playInteractiveMeaning(1)" id="meaning-card-1" class="interactive-card cursor-pointer bg-slate-950 p-4 sm:p-5 rounded-2xl border border-slate-800 hover:border-cyan-400 flex flex-col justify-between group">
                         <div>
-                            <div class="flex justify-between items-center mb-3">
-                                <span class="bg-cyan-400/10 text-cyan-400 px-2.5 py-0.5 rounded-md font-mono text-[10px] border border-cyan-400/30">Rangkap 2 & Ulangan (Baris 5 - 12)</span>
+                            <div class="flex justify-between items-center mb-2.5">
+                                <span class="bg-cyan-400/10 text-cyan-400 px-2 py-0.5 rounded-md font-mono text-[9px] sm:text-[10px] border border-cyan-400/30">Rangkap 2 & Ulangan (Baris 5 - 12)</span>
                                 <span class="w-7 h-7 rounded-full bg-cyan-400/10 text-cyan-400 flex items-center justify-center text-xs group-hover:bg-cyan-400 group-hover:text-slate-950 transition-colors">
                                     <i class="fa-solid fa-volume-high"></i>
                                 </span>
                             </div>
-                            <h4 class="font-bold text-cyan-300 text-sm mb-2 group-hover:translate-x-1 transition-transform">Rahmat bahagia, Tuhan kurniakan...</h4>
+                            <h4 class="font-bold text-cyan-300 text-xs sm:text-sm mb-1.5 group-hover:translate-x-1 transition-transform">Rahmat bahagia, Tuhan kurniakan...</h4>
                             <p class="text-slate-200 leading-relaxed text-xs font-normal">
                                 Memohon rahmat dan kebahagiaan daripada Tuhan untuk kesejahteraan raja yang memerintah rakyat serta negara. Ia merangkumi doa agar tanah air sentiasa aman, makmur, serta dipimpin dengan adil dan saksama.
                             </p>
                         </div>
-                        <div class="mt-4 text-[10px] text-cyan-400/70 font-mono border-t border-slate-900 pt-2.5 flex justify-between items-center">
+                        <div class="mt-3 text-[9px] sm:text-[10px] text-cyan-400/70 font-mono border-t border-slate-900 pt-2 flex justify-between items-center">
                             <span>KLIK UNTUK BUNYI FX & HIGHLIGHT</span>
                             <i class="fa-solid fa-chevron-right"></i>
                         </div>
                     </div>
                 </div>
 
-                <div id="meaning-interactive-box" class="bg-gradient-to-r from-yellow-950/40 via-slate-950 to-slate-900 border border-yellow-500/30 p-4 rounded-2xl text-xs text-slate-200 text-center font-medium shadow-inner">
+                <div id="meaning-interactive-box" class="bg-gradient-to-r from-yellow-950/40 via-slate-950 to-slate-900 border border-yellow-500/30 p-3.5 rounded-2xl text-xs text-slate-200 text-center font-medium shadow-inner">
                     💡 <span id="meaning-status-text">Klik mana-mana kad maksud lirik di atas untuk menghayati tafsiran rasmi berserta perincian spesifik!</span>
                 </div>
             </div>
         </div>
 
         <!-- ================= BAHAGIAN 4: ETIKA MENYANYI DAN MENDENGAR (FLIP CARDS INTERAKTIF) ================= -->
-        <div id="section-etiquette" class="hidden grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div id="section-etiquette" class="hidden grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             
             <!-- Flip Card 1: Kedudukan Fizikal -->
             <div class="flip-card" onclick="flipEtiquetteCard(this, 0)">
                 <div class="flip-card-inner">
-                    <div class="flip-card-front bg-slate-900/90 border border-slate-800 hover:border-cyan-400 p-6 flex flex-col justify-between shadow-xl">
+                    <div class="flip-card-front bg-slate-900/90 border border-slate-800 hover:border-cyan-400 p-5 sm:p-6 flex flex-col justify-between shadow-xl">
                         <div>
-                            <div class="flex justify-between items-center mb-4">
-                                <div class="w-12 h-12 rounded-2xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-2xl font-bold border border-cyan-500/30">
+                            <div class="flex justify-between items-center mb-3 sm:mb-4">
+                                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-xl sm:text-2xl font-bold border border-cyan-500/30">
                                     <i class="fa-solid fa-person"></i>
                                 </div>
-                                <span class="text-[10px] font-mono text-cyan-400 bg-cyan-950 border border-cyan-800 px-2.5 py-1 rounded-full"><i class="fa-solid fa-rotate mr-1"></i> Tekan Untuk Terbalikkan</span>
+                                <span class="text-[9px] sm:text-[10px] font-mono text-cyan-400 bg-cyan-950 border border-cyan-800 px-2 py-1 rounded-full"><i class="fa-solid fa-rotate mr-1"></i> Terbalikkan</span>
                             </div>
-                            <h3 class="font-bold text-lg text-cyan-300 mb-1">1. Kedudukan Fizikal</h3>
-                            <p class="text-xs text-slate-400 mt-2">Etika utama postur badan yang betul semasa menyanyikan atau mendengar lagu kebangsaan.</p>
+                            <h3 class="font-bold text-base sm:text-lg text-cyan-300 mb-1">1. Kedudukan Fizikal</h3>
+                            <p class="text-xs text-slate-400 mt-1 sm:mt-2">Etika utama postur badan yang betul semasa menyanyikan atau mendengar lagu kebangsaan.</p>
                         </div>
-                        <div class="text-[11px] font-bold text-cyan-400 flex items-center justify-between border-t border-slate-800 pt-3">
+                        <div class="text-[10px] sm:text-[11px] font-bold text-cyan-400 flex items-center justify-between border-t border-slate-800 pt-3">
                             <span>LIHAT PERINCIAN ETIKA</span>
                             <i class="fa-solid fa-arrow-right-rotate"></i>
                         </div>
                     </div>
-                    <div class="flip-card-back bg-gradient-to-br from-slate-900 to-cyan-950 border border-cyan-500/50 p-6 flex flex-col justify-between shadow-2xl">
+                    <div class="flip-card-back bg-gradient-to-br from-slate-900 to-cyan-950 border border-cyan-500/50 p-5 sm:p-6 flex flex-col justify-between shadow-2xl">
                         <div>
                             <div class="flex justify-between items-center mb-2 pb-2 border-b border-cyan-800/50">
-                                <h4 class="font-bold text-cyan-300 text-sm flex items-center gap-1.5"><i class="fa-solid fa-person text-xs"></i> 1. Kedudukan Fizikal</h4>
-                                <span class="text-[9px] font-mono text-cyan-200 bg-cyan-900/80 px-2 py-0.5 rounded">TERBALIK</span>
+                                <h4 class="font-bold text-cyan-300 text-xs sm:text-sm flex items-center gap-1.5"><i class="fa-solid fa-person text-xs"></i> 1. Kedudukan Fizikal</h4>
+                                <span class="text-[8px] sm:text-[9px] font-mono text-cyan-200 bg-cyan-900/80 px-2 py-0.5 rounded">TERBALIK</span>
                             </div>
-                            <ul class="text-xs text-slate-200 space-y-2 list-disc pl-4 leading-relaxed">
+                            <ul class="text-xs text-slate-200 space-y-1.5 sm:space-y-2 list-disc pl-4 leading-relaxed">
                                 <li><strong>Berdiri tegak.</strong></li>
                                 <li>Kedua-dua belah tangan diletakkan di sisi dan diluruskan ke bawah.</li>
                                 <li>Kedua-dua belah kaki dirapatkan.</li>
                             </ul>
                         </div>
-                        <div class="text-[10px] text-cyan-300/70 font-mono text-right italic">Klik semula untuk tutup</div>
+                        <div class="text-[9px] sm:text-[10px] text-cyan-300/70 font-mono text-right italic">Klik semula untuk tutup</div>
                     </div>
                 </div>
             </div>
@@ -587,36 +606,36 @@
             <!-- Flip Card 2: Suara & Penghayatan -->
             <div class="flip-card" onclick="flipEtiquetteCard(this, 1)">
                 <div class="flip-card-inner">
-                    <div class="flip-card-front bg-slate-900/90 border border-slate-800 hover:border-amber-400 p-6 flex flex-col justify-between shadow-xl">
+                    <div class="flip-card-front bg-slate-900/90 border border-slate-800 hover:border-amber-400 p-5 sm:p-6 flex flex-col justify-between shadow-xl">
                         <div>
-                            <div class="flex justify-between items-center mb-4">
-                                <div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-2xl font-bold border border-amber-500/30">
+                            <div class="flex justify-between items-center mb-3 sm:mb-4">
+                                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl sm:text-2xl font-bold border border-amber-500/30">
                                     <i class="fa-solid fa-microphone"></i>
                                 </div>
-                                <span class="text-[10px] font-mono text-amber-400 bg-amber-950 border border-amber-800 px-2.5 py-1 rounded-full"><i class="fa-solid fa-rotate mr-1"></i> Tekan Untuk Terbalikkan</span>
+                                <span class="text-[9px] sm:text-[10px] font-mono text-amber-400 bg-amber-950 border border-amber-800 px-2 py-1 rounded-full"><i class="fa-solid fa-rotate mr-1"></i> Terbalikkan</span>
                             </div>
-                            <h3 class="font-bold text-lg text-amber-300 mb-1">2. Suara & Penghayatan</h3>
-                            <p class="text-xs text-slate-400 mt-2">Cara lontaran suara, sebutan lirik dan sikap kesopanan semasa menyanyi.</p>
+                            <h3 class="font-bold text-base sm:text-lg text-amber-300 mb-1">2. Suara & Penghayatan</h3>
+                            <p class="text-xs text-slate-400 mt-1 sm:mt-2">Cara lontaran suara, sebutan lirik dan sikap kesopanan semasa menyanyi.</p>
                         </div>
-                        <div class="text-[11px] font-bold text-amber-400 flex items-center justify-between border-t border-slate-800 pt-3">
+                        <div class="text-[10px] sm:text-[11px] font-bold text-amber-400 flex items-center justify-between border-t border-slate-800 pt-3">
                             <span>LIHAT PERINCIAN ETIKA</span>
                             <i class="fa-solid fa-arrow-right-rotate"></i>
                         </div>
                     </div>
-                    <div class="flip-card-back bg-gradient-to-br from-slate-900 to-amber-950 border border-amber-500/50 p-6 flex flex-col justify-between shadow-2xl">
+                    <div class="flip-card-back bg-gradient-to-br from-slate-900 to-amber-950 border border-amber-500/50 p-5 sm:p-6 flex flex-col justify-between shadow-2xl">
                         <div>
                             <div class="flex justify-between items-center mb-2 pb-2 border-b border-amber-800/50">
-                                <h4 class="font-bold text-amber-300 text-sm flex items-center gap-1.5"><i class="fa-solid fa-microphone text-xs"></i> 2. Suara & Penghayatan</h4>
-                                <span class="text-[9px] font-mono text-amber-200 bg-amber-900/80 px-2 py-0.5 rounded">TERBALIK</span>
+                                <h4 class="font-bold text-amber-300 text-xs sm:text-sm flex items-center gap-1.5"><i class="fa-solid fa-microphone text-xs"></i> 2. Suara & Penghayatan</h4>
+                                <span class="text-[8px] sm:text-[9px] font-mono text-amber-200 bg-amber-900/80 px-2 py-0.5 rounded">TERBALIK</span>
                             </div>
-                            <ul class="text-xs text-slate-200 space-y-1.5 list-disc pl-4 leading-relaxed">
+                            <ul class="text-xs text-slate-200 space-y-1 sm:space-y-1.5 list-disc pl-4 leading-relaxed">
                                 <li>Menyanyi secara jelas dan serentak.</li>
                                 <li>Menyebut lirik lagu dengan betul dan bersemangat.</li>
                                 <li>Menghayati lirik lagu.</li>
                                 <li><strong>Tidak bermain-main semasa bernyanyi.</strong></li>
                             </ul>
                         </div>
-                        <div class="text-[10px] text-amber-300/70 font-mono text-right italic">Klik semula untuk tutup</div>
+                        <div class="text-[9px] sm:text-[10px] text-amber-300/70 font-mono text-right italic">Klik semula untuk tutup</div>
                     </div>
                 </div>
             </div>
@@ -624,72 +643,72 @@
             <!-- Flip Card 3: Murid Datang Lewat -->
             <div class="flip-card" onclick="flipEtiquetteCard(this, 2)">
                 <div class="flip-card-inner">
-                    <div class="flip-card-front bg-slate-900/90 border border-slate-800 hover:border-indigo-400 p-6 flex flex-col justify-between shadow-xl">
+                    <div class="flip-card-front bg-slate-900/90 border border-slate-800 hover:border-indigo-400 p-5 sm:p-6 flex flex-col justify-between shadow-xl">
                         <div>
-                            <div class="flex justify-between items-center mb-4">
-                                <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-2xl font-bold border border-indigo-500/30">
+                            <div class="flex justify-between items-center mb-3 sm:mb-4">
+                                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-xl sm:text-2xl font-bold border border-indigo-500/30">
                                     <i class="fa-solid fa-clock"></i>
                                 </div>
-                                <span class="text-[10px] font-mono text-indigo-400 bg-indigo-950 border border-indigo-800 px-2.5 py-1 rounded-full"><i class="fa-solid fa-rotate mr-1"></i> Tekan Untuk Terbalikkan</span>
+                                <span class="text-[9px] sm:text-[10px] font-mono text-indigo-400 bg-indigo-950 border border-indigo-800 px-2 py-1 rounded-full"><i class="fa-solid fa-rotate mr-1"></i> Terbalikkan</span>
                             </div>
-                            <h3 class="font-bold text-lg text-indigo-300 mb-1">3. Murid Datang Lewat</h3>
-                            <p class="text-xs text-slate-400 mt-2">Tindakan serta-merta yang wajib dilakukan oleh murid yang sampai lewat di sekolah.</p>
+                            <h3 class="font-bold text-base sm:text-lg text-indigo-300 mb-1">3. Murid Datang Lewat</h3>
+                            <p class="text-xs text-slate-400 mt-1 sm:mt-2">Tindakan serta-merta yang wajib dilakukan oleh murid yang sampai lewat di sekolah.</p>
                         </div>
-                        <div class="text-[11px] font-bold text-indigo-400 flex items-center justify-between border-t border-slate-800 pt-3">
+                        <div class="text-[10px] sm:text-[11px] font-bold text-indigo-400 flex items-center justify-between border-t border-slate-800 pt-3">
                             <span>LIHAT PERINCIAN ETIKA</span>
                             <i class="fa-solid fa-arrow-right-rotate"></i>
                         </div>
                     </div>
-                    <div class="flip-card-back bg-gradient-to-br from-slate-900 to-indigo-950 border border-indigo-500/50 p-6 flex flex-col justify-between shadow-2xl">
+                    <div class="flip-card-back bg-gradient-to-br from-slate-900 to-indigo-950 border border-indigo-500/50 p-5 sm:p-6 flex flex-col justify-between shadow-2xl">
                         <div>
                             <div class="flex justify-between items-center mb-2 pb-2 border-b border-indigo-800/50">
-                                <h4 class="font-bold text-indigo-300 text-sm flex items-center gap-1.5"><i class="fa-solid fa-clock text-xs"></i> 3. Murid Datang Lewat</h4>
-                                <span class="text-[9px] font-mono text-indigo-200 bg-indigo-900/80 px-2 py-0.5 rounded">TERBALIK</span>
+                                <h4 class="font-bold text-indigo-300 text-xs sm:text-sm flex items-center gap-1.5"><i class="fa-solid fa-clock text-xs"></i> 3. Murid Datang Lewat</h4>
+                                <span class="text-[8px] sm:text-[9px] font-mono text-indigo-200 bg-indigo-900/80 px-2 py-0.5 rounded">TERBALIK</span>
                             </div>
-                            <ul class="text-xs text-slate-200 space-y-2 list-disc pl-4 leading-relaxed">
+                            <ul class="text-xs text-slate-200 space-y-1.5 sm:space-y-2 list-disc pl-4 leading-relaxed">
                                 <li>Berhenti berjalan apabila mendengar nyanyian lagu kebangsaan.</li>
                                 <li>Hendaklah meletakkan beg di sisi kaki.</li>
                                 <li>Berdiri tegak dengan penuh disiplin.</li>
                             </ul>
                         </div>
-                        <div class="text-[10px] text-indigo-300/70 font-mono text-right italic">Klik semula untuk tutup</div>
+                        <div class="text-[9px] sm:text-[10px] text-indigo-300/70 font-mono text-right italic">Klik semula untuk tutup</div>
                     </div>
                 </div>
             </div>
 
             <!-- Flip Card 4: Bagi OKU -->
-            <div class="flip-card" onclick="flipEtiquetteCard(this, 4)">
+            <div class="flip-card" onclick="flipEtiquetteCard(this, 3)">
                 <div class="flip-card-inner">
-                    <div class="flip-card-front bg-slate-900/90 border border-slate-800 hover:border-emerald-400 p-6 flex flex-col justify-between shadow-xl">
+                    <div class="flip-card-front bg-slate-900/90 border border-slate-800 hover:border-emerald-400 p-5 sm:p-6 flex flex-col justify-between shadow-xl">
                         <div>
-                            <div class="flex justify-between items-center mb-4">
-                                <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-2xl font-bold border border-emerald-500/30">
+                            <div class="flex justify-between items-center mb-3 sm:mb-4">
+                                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xl sm:text-2xl font-bold border border-emerald-500/30">
                                     <i class="fa-solid fa-wheelchair"></i>
                                 </div>
-                                <span class="text-[10px] font-mono text-emerald-400 bg-emerald-950 border border-emerald-800 px-2.5 py-1 rounded-full"><i class="fa-solid fa-rotate mr-1"></i> Tekan Untuk Terbalikkan</span>
+                                <span class="text-[9px] sm:text-[10px] font-mono text-emerald-400 bg-emerald-950 border border-emerald-800 px-2 py-1 rounded-full"><i class="fa-solid fa-rotate mr-1"></i> Terbalikkan</span>
                             </div>
-                            <h3 class="font-bold text-lg text-emerald-300 mb-1">4. Bagi OKU</h3>
-                            <p class="text-xs text-slate-400 mt-2">Panduan khas hormat lagu kebangsaan bagi Orang Kurang Upaya (berkerusi roda).</p>
+                            <h3 class="font-bold text-base sm:text-lg text-emerald-300 mb-1">4. Bagi OKU</h3>
+                            <p class="text-xs text-slate-400 mt-1 sm:mt-2">Panduan khas hormat lagu kebangsaan bagi Orang Kurang Upaya (berkerusi roda).</p>
                         </div>
-                        <div class="text-[11px] font-bold text-emerald-400 flex items-center justify-between border-t border-slate-800 pt-3">
+                        <div class="text-[10px] sm:text-[11px] font-bold text-emerald-400 flex items-center justify-between border-t border-slate-800 pt-3">
                             <span>LIHAT PERINCIAN ETIKA</span>
                             <i class="fa-solid fa-arrow-right-rotate"></i>
                         </div>
                     </div>
-                    <div class="flip-card-back bg-gradient-to-br from-slate-900 to-emerald-950 border border-emerald-500/50 p-6 flex flex-col justify-between shadow-2xl">
+                    <div class="flip-card-back bg-gradient-to-br from-slate-900 to-emerald-950 border border-emerald-500/50 p-5 sm:p-6 flex flex-col justify-between shadow-2xl">
                         <div>
                             <div class="flex justify-between items-center mb-2 pb-2 border-b border-emerald-800/50">
-                                <h4 class="font-bold text-emerald-300 text-sm flex items-center gap-1.5"><i class="fa-solid fa-wheelchair text-xs"></i> 4. Bagi OKU</h4>
-                                <span class="text-[9px] font-mono text-emerald-200 bg-emerald-900/80 px-2 py-0.5 rounded">TERBALIK</span>
+                                <h4 class="font-bold text-emerald-300 text-xs sm:text-sm flex items-center gap-1.5"><i class="fa-solid fa-wheelchair text-xs"></i> 4. Bagi OKU</h4>
+                                <span class="text-[8px] sm:text-[9px] font-mono text-emerald-200 bg-emerald-900/80 px-2 py-0.5 rounded">TERBALIK</span>
                             </div>
-                            <ul class="text-xs text-slate-200 space-y-1.5 list-disc pl-4 leading-relaxed">
+                            <ul class="text-xs text-slate-200 space-y-1 sm:space-y-1.5 list-disc pl-4 leading-relaxed">
                                 <li>Bagi yang berkerusi roda, kepala mesti tegak.</li>
                                 <li>Mata memandang bendera.</li>
                                 <li>Kedua-dua tangan di atas paha.</li>
                                 <li>Kaki dirapatkan.</li>
                             </ul>
                         </div>
-                        <div class="text-[10px] text-emerald-300/70 font-mono text-right italic">Klik semula untuk tutup</div>
+                        <div class="text-[9px] sm:text-[10px] text-emerald-300/70 font-mono text-right italic">Klik semula untuk tutup</div>
                     </div>
                 </div>
             </div>
@@ -697,39 +716,39 @@
             <!-- Flip Card 5: Akta Lagu Kebangsaan 1968 (Penalti) -->
             <div class="flip-card lg:col-span-2" onclick="flipEtiquetteCard(this, 4)">
                 <div class="flip-card-inner">
-                    <div class="flip-card-front bg-gradient-to-b from-rose-950/60 to-slate-900 border border-rose-800/60 hover:border-rose-400 p-6 flex flex-col justify-between shadow-xl">
+                    <div class="flip-card-front bg-gradient-to-b from-rose-950/60 to-slate-900 border border-rose-800/60 hover:border-rose-400 p-5 sm:p-6 flex flex-col justify-between shadow-xl">
                         <div>
-                            <div class="flex justify-between items-center mb-4">
-                                <div class="w-12 h-12 rounded-2xl bg-rose-500/20 text-rose-400 flex items-center justify-center text-2xl font-bold border border-rose-500/40">
+                            <div class="flex justify-between items-center mb-3 sm:mb-4">
+                                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-rose-500/20 text-rose-400 flex items-center justify-center text-xl sm:text-2xl font-bold border border-rose-500/40">
                                     <i class="fa-solid fa-gavel"></i>
                                 </div>
-                                <span class="text-[10px] font-mono text-rose-400 bg-rose-950 border border-rose-800 px-2.5 py-1 rounded-full"><i class="fa-solid fa-rotate mr-1"></i> Tekan Untuk Terbalikkan Amaran</span>
+                                <span class="text-[9px] sm:text-[10px] font-mono text-rose-400 bg-rose-950 border border-rose-800 px-2 py-1 rounded-full"><i class="fa-solid fa-rotate mr-1"></i> Terbalikkan Amaran</span>
                             </div>
-                            <h3 class="font-bold text-lg text-rose-300 mb-1">5. Akta Lagu Kebangsaan 1968 (Penalti Undang-Undang)</h3>
-                            <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+                            <h3 class="font-bold text-base sm:text-lg text-rose-300 mb-1">5. Akta Lagu Kebangsaan 1968 (Penalti Undang-Undang)</h3>
+                            <p class="text-xs text-slate-300 mt-1 sm:mt-2 leading-relaxed">
                                 Tindakan tidak menghormati lagu kebangsaan merupakan kesalahan di bawah Akta 390.
                             </p>
                         </div>
-                        <div class="text-[11px] font-bold text-rose-400 flex items-center justify-between border-t border-rose-900/60 pt-3">
+                        <div class="text-[10px] sm:text-[11px] font-bold text-rose-400 flex items-center justify-between border-t border-rose-900/60 pt-3">
                             <span>LIHAT HUKUMAN PENALTI RASMI</span>
                             <i class="fa-solid fa-arrow-right-rotate"></i>
                         </div>
                     </div>
-                    <div class="flip-card-back bg-gradient-to-br from-slate-950 via-rose-950 to-slate-900 border border-rose-500/60 p-6 flex flex-col justify-between shadow-2xl">
+                    <div class="flip-card-back bg-gradient-to-br from-slate-950 via-rose-950 to-slate-900 border border-rose-500/60 p-5 sm:p-6 flex flex-col justify-between shadow-2xl">
                         <div>
-                            <div class="flex justify-between items-center mb-3 pb-2 border-b border-rose-800/60">
-                                <h4 class="font-bold text-rose-300 text-sm flex items-center gap-1.5"><i class="fa-solid fa-gavel text-xs"></i> 5. Akta Lagu Kebangsaan 1968</h4>
-                                <span class="text-[9px] font-mono text-rose-200 bg-rose-900/80 px-2 py-0.5 rounded">TERBALIK</span>
+                            <div class="flex justify-between items-center mb-2 pb-2 border-b border-rose-800/60">
+                                <h4 class="font-bold text-rose-300 text-xs sm:text-sm flex items-center gap-1.5"><i class="fa-solid fa-gavel text-xs"></i> 5. Akta Lagu Kebangsaan 1968</h4>
+                                <span class="text-[8px] sm:text-[9px] font-mono text-rose-200 bg-rose-900/80 px-2 py-0.5 rounded">TERBALIK</span>
                             </div>
-                            <p class="text-xs text-slate-200 leading-relaxed mb-3">
+                            <p class="text-xs text-slate-200 leading-relaxed mb-2.5">
                                 Didakwa atas kesalahan tidak menghormati lagu Negaraku mengikut peruntukan Akta Lagu Kebangsaan 1968.
                             </p>
-                            <div class="bg-slate-950/90 p-3 rounded-2xl border border-rose-800 text-xs font-mono text-rose-200 shadow-inner">
+                            <div class="bg-slate-950/90 p-2.5 sm:p-3 rounded-2xl border border-rose-800 text-[11px] sm:text-xs font-mono text-rose-200 shadow-inner">
                                 <div class="font-bold text-rose-400 mb-1"><i class="fa-solid fa-triangle-exclamation"></i> HUKUMAN PENALTI:</div>
                                 Denda tidak melebihi <strong>RM100</strong> atau dipenjara tidak melebihi <strong>satu bulan</strong> jika didakwa atas kesalahan tidak menghormati lagu Negaraku.
                             </div>
                         </div>
-                        <div class="text-[10px] text-rose-300/70 font-mono text-right italic">Klik semula untuk tutup</div>
+                        <div class="text-[9px] sm:text-[10px] text-rose-300/70 font-mono text-right italic">Klik semula untuk tutup</div>
                     </div>
                 </div>
             </div>
@@ -738,41 +757,41 @@
 
         <!-- ================= BAHAGIAN 5: PERANAN LAGU KEBANGSAAN (SUBTOPIK B INTERAKTIF) ================= -->
         <div id="section-identity" class="hidden flex-col items-center">
-            <div class="w-full max-w-4xl bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-2xl space-y-6">
-                <div class="border-b border-slate-800 pb-4 text-center">
-                    <h3 class="font-orbitron font-bold text-xl text-emerald-400 flex items-center justify-center gap-2">
+            <div class="w-full max-w-4xl bg-slate-900/90 border border-slate-800 rounded-3xl p-4 sm:p-6 shadow-2xl space-y-4 sm:space-y-6">
+                <div class="border-b border-slate-800 pb-3 sm:pb-4 text-center">
+                    <h3 class="font-orbitron font-bold text-base sm:text-xl text-emerald-400 flex items-center justify-center gap-2">
                         <i class="fa-solid fa-flag"></i> PERANAN LAGU KEBANGSAAN DALAM MEMBENTUK JATI DIRI
                     </h3>
-                    <p class="text-xs text-slate-400 mt-1">Klik kad di bawah untuk menghayati peranan lagu kebangsaan kepada setiap warganegara Malaysia</p>
+                    <p class="text-[11px] sm:text-xs text-slate-400 mt-1">Klik kad di bawah untuk menghayati peranan lagu kebangsaan kepada setiap warganegara Malaysia</p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div onclick="showIdentityDetail(0)" id="identity-card-0" class="interactive-card cursor-pointer bg-slate-950 p-5 rounded-2xl border border-emerald-800/50 hover:border-emerald-400 text-center flex flex-col items-center group">
-                        <div class="w-14 h-14 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-2xl mb-3 group-hover:scale-110 transition-transform">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
+                    <div onclick="showIdentityDetail(0)" id="identity-card-0" class="interactive-card cursor-pointer bg-slate-950 p-4 sm:p-5 rounded-2xl border border-emerald-800/50 hover:border-emerald-400 text-center flex flex-col items-center group">
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xl sm:text-2xl mb-2 sm:mb-3 group-hover:scale-110 transition-transform">
                             <i class="fa-solid fa-hand-holding-heart"></i>
                         </div>
-                        <h4 class="font-bold text-sm text-white mb-2">1. Taat Setia</h4>
-                        <p class="text-xs text-slate-400">Melahirkan warganegara yang taat setia kepada raja dan negara.</p>
+                        <h4 class="font-bold text-xs sm:text-sm text-white mb-1.5">1. Taat Setia</h4>
+                        <p class="text-[11px] sm:text-xs text-slate-400">Melahirkan warganegara yang taat setia kepada raja dan negara.</p>
                     </div>
 
-                    <div onclick="showIdentityDetail(1)" id="identity-card-1" class="interactive-card cursor-pointer bg-slate-950 p-5 rounded-2xl border border-cyan-800/50 hover:border-cyan-400 text-center flex flex-col items-center group">
-                        <div class="w-14 h-14 rounded-full bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-2xl mb-3 group-hover:scale-110 transition-transform">
+                    <div onclick="showIdentityDetail(1)" id="identity-card-1" class="interactive-card cursor-pointer bg-slate-950 p-4 sm:p-5 rounded-2xl border border-cyan-800/50 hover:border-cyan-400 text-center flex flex-col items-center group">
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-xl sm:text-2xl mb-2 sm:mb-3 group-hover:scale-110 transition-transform">
                             <i class="fa-solid fa-chart-line"></i>
                         </div>
-                        <h4 class="font-bold text-sm text-white mb-2">2. Memajukan Diri</h4>
-                        <p class="text-xs text-slate-400">Melahirkan warganegara yang berusaha memajukan diri dan bercita-cita tinggi untuk berjaya.</p>
+                        <h4 class="font-bold text-xs sm:text-sm text-white mb-1.5">2. Memajukan Diri</h4>
+                        <p class="text-[11px] sm:text-xs text-slate-400">Melahirkan warganegara yang berusaha memajukan diri dan bercita-cita tinggi untuk berjaya.</p>
                     </div>
 
-                    <div onclick="showIdentityDetail(2)" id="identity-card-2" class="interactive-card cursor-pointer bg-slate-950 p-5 rounded-2xl border border-amber-800/50 hover:border-amber-400 text-center flex flex-col items-center group">
-                        <div class="w-14 h-14 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center text-2xl mb-3 group-hover:scale-110 transition-transform">
+                    <div onclick="showIdentityDetail(2)" id="identity-card-2" class="interactive-card cursor-pointer bg-slate-950 p-4 sm:p-5 rounded-2xl border border-amber-800/50 hover:border-amber-400 text-center flex flex-col items-center group">
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl sm:text-2xl mb-2 sm:mb-3 group-hover:scale-110 transition-transform">
                             <i class="fa-solid fa-users"></i>
                         </div>
-                        <h4 class="font-bold text-sm text-white mb-2">3. Cinta & Perpaduan</h4>
-                        <p class="text-xs text-slate-400">Memupuk rasa cinta akan negara serta perpaduan kepelbagaian kaum, agama dan budaya.</p>
+                        <h4 class="font-bold text-xs sm:text-sm text-white mb-1.5">3. Cinta & Perpaduan</h4>
+                        <p class="text-[11px] sm:text-xs text-slate-400">Memupuk rasa cinta akan negara serta perpaduan kepelbagaian kaum, agama dan budaya.</p>
                     </div>
                 </div>
 
-                <div id="identity-detail-box" class="bg-gradient-to-r from-emerald-950/60 to-slate-950 border border-emerald-700/50 p-4 rounded-2xl text-xs text-slate-200 text-center font-medium shadow-inner">
+                <div id="identity-detail-box" class="bg-gradient-to-r from-emerald-950/60 to-slate-950 border border-emerald-700/50 p-3.5 rounded-2xl text-xs text-slate-200 text-center font-medium shadow-inner">
                     ✨ Klik mana-mana kad peranan di atas untuk membaca maklumat lanjutan jati diri berserta kesan bunyi.
                 </div>
             </div>
@@ -780,25 +799,25 @@
 
         <!-- ================= BAHAGIAN 6: KUIZ INTERAKTIF ================= -->
         <div id="section-quiz" class="hidden flex-col items-center">
-            <div class="w-full max-w-2xl bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-2xl">
-                <div class="flex justify-between items-center border-b border-slate-800 pb-4 mb-6">
+            <div class="w-full max-w-2xl bg-slate-900/90 border border-slate-800 rounded-3xl p-4 sm:p-6 shadow-2xl">
+                <div class="flex justify-between items-center border-b border-slate-800 pb-3 sm:pb-4 mb-4 sm:mb-6">
                     <div>
-                        <h3 class="font-orbitron font-bold text-xl text-rose-400 flex items-center gap-2">
+                        <h3 class="font-orbitron font-bold text-lg sm:text-xl text-rose-400 flex items-center gap-2">
                             <i class="fa-solid fa-trophy"></i> Uji Minda Patriotik
                         </h3>
-                        <p class="text-xs text-slate-400">Jawab soalan di bawah berdasarkan topik yang telah dipelajari</p>
+                        <p class="text-[11px] sm:text-xs text-slate-400">Jawab soalan di bawah berdasarkan topik yang telah dipelajari</p>
                     </div>
-                    <div class="bg-rose-950 px-3 py-1 rounded-full border border-rose-800 text-xs font-mono text-rose-300">
+                    <div class="bg-rose-950 px-2.5 py-1 rounded-full border border-rose-800 text-[11px] sm:text-xs font-mono text-rose-300">
                         Markah: <span id="quiz-score" class="font-bold text-amber-400">0</span>/50
                     </div>
                 </div>
 
-                <div id="quiz-card" class="space-y-4">
-                    <div class="text-sm font-semibold text-slate-200" id="quiz-question">
+                <div id="quiz-card" class="space-y-3 sm:space-y-4">
+                    <div class="text-xs sm:text-sm font-semibold text-slate-200" id="quiz-question">
                         1. Apakah nama asal irama lagu kebesaran negeri Perak yang dijadikan melodi lagu Negaraku?
                     </div>
 
-                    <div class="grid grid-cols-1 gap-2.5 text-xs font-medium" id="quiz-options"></div>
+                    <div class="grid grid-cols-1 gap-2 text-xs font-medium" id="quiz-options"></div>
 
                     <div id="quiz-feedback" class="hidden p-3 rounded-xl text-xs font-bold text-center"></div>
 
@@ -811,7 +830,7 @@
 
     </main>
 
-    <!-- JAVASCRIPT LOGIC MAKSUD UTAMA RASMI + PENELASAN SPESIFIK BERIKUTAN BARIS AUDIO -->
+    <!-- JAVASCRIPT LOGIC DENGAN SOKONGAN TOUCH & AUDIOCONTEXT TOUCH UNLOCK -->
     <script>
         const audio = document.getElementById('real-audio-player');
         const historyAudio = document.getElementById('history-audio-player');
@@ -847,13 +866,12 @@
             { line: 4, time: 55 }
         ];
 
-        // MAKSUD UTAMA SAMPAI DENGAN TAMBAHAN 1 AYAT SPESIFIK UNTUK SETIAP BARIS LIRIK
         const lyricMeaningsList = [
-            "Menyeru rakyat daripada pelbagai bangsa dan agama supaya hidup bersatu padu untuk mencapai kemajuan. (Ini menuntut rasa bangga dan ikrar taat setia yang tidak berbelah bahagi kepada tanah air tempat lahir kita.)",
-            "Menyeru rakyat daripada pelbagai bangsa dan agama supaya hidup bersatu padu untuk mencapai kemajuan. (Ini menggalakkan seluruh lapisan masyarakat berkerjasama erat demi memacu pembangunan negara ke tahap cemerlang.)",
-            "Memohon rahmat dan kebahagiaan daripada Tuhan untuk kesejahteraan raja yang memerintah rakyat serta negara. (Ini merupakan doa suci agar Malaysia sentiasa dikurniakan keamanan, kemakmuran dan keberkatan berpanjangan.)",
-            "Memohon rahmat dan kebahagiaan daripada Tuhan untuk kesejahteraan raja yang memerintah rakyat serta negara. （Ini melambangkan penghormatan tinggi kepada Yang di-Pertuan Agong sebagai payung kedaulatan tanah air.）",
-            "Memohon rahmat dan kebahagiaan daripada Tuhan untuk kesejahteraan raja yang memerintah rakyat serta negara. （Ulangan baris ini mengukuhkan lagi iltizam rakyat untuk mempertahankan kedaulatan negara selamanya.）"
+            "Menyeru rakyat daripada pelbagai bangsa dan agama supaya hidup bersatu padu untuk mencapai kemajuan.[Ini menuntut rasa bangga dan ikrar taat setia yang tidak berbelah bahagi kepada tanah air tempat lahir kita.]",
+            "Menyeru rakyat daripada pelbagai bangsa dan agama supaya hidup bersatu padu untuk mencapai kemajuan. [Ini menggalakkan seluruh lapisan masyarakat berkerjasama erat demi memacu pembangunan negara ke tahap cemerlang.]",
+            "Memohon rahmat dan kebahagiaan daripada Tuhan untuk kesejahteraan raja yang memerintah rakyat serta negara. [Ini merupakan doa suci agar Malaysia sentiasa dikurniakan keamanan, kemakmuran dan keberkatan berpanjangan.]",
+            "Memohon rahmat dan kebahagiaan daripada Tuhan untuk kesejahteraan raja yang memerintah rakyat serta negara. [Ini melambangkan penghormatan tinggi kepada Yang di-Pertuan Agong sebagai payung kedaulatan tanah air.]",
+            "Memohon rahmat dan kebahagiaan daripada Tuhan untuk kesejahteraan raja yang memerintah rakyat serta negara. [Ulangan baris ini mengukuhkan lagi iltizam rakyat untuk mempertahankan kedaulatan negara selamanya.]"
         ];
 
         let currentVinylKey = 'terang';
@@ -884,11 +902,11 @@
                     sec.classList.remove('hidden');
                     if (t === 'player' || t === 'history' || t === 'etiquette') sec.classList.add('grid');
                     if (t === 'meaning' || t === 'identity' || t === 'quiz') sec.classList.add('flex');
-                    btn.className = "px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-amber-400 text-slate-950 shadow-md";
+                    btn.className = "whitespace-nowrap px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-amber-400 text-slate-950 shadow-md";
                 } else {
                     sec.classList.add('hidden');
                     sec.classList.remove('grid', 'flex');
-                    btn.className = "px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition-all";
+                    btn.className = "whitespace-nowrap px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition-all";
                 }
             });
         }
@@ -972,14 +990,12 @@
 
         function highlightLyricLine(lineIdx) {
             for (let i = 0; i < 5; i++) {
-                // Highlight Panel Lirik Kanan
                 const el = document.getElementById(`lyric-${i}`);
                 if (el) {
                     if (i === lineIdx) el.classList.add('active');
                     else el.classList.remove('active');
                 }
 
-                // Highlight Skrin LCD MP3
                 const lcdEl = document.getElementById(`lcd-line-${i}`);
                 if (lcdEl) {
                     if (i === lineIdx) {
@@ -991,7 +1007,6 @@
                 }
             }
 
-            // KEMAS KINI KOTAK MAKSUD LIRIK SPESIFIK REALTIME
             const badge = document.getElementById('meaning-line-badge');
             const text = document.getElementById('meaning-display-text');
             if (badge && text) {
@@ -1116,14 +1131,14 @@
             document.getElementById('meaning-status-text').innerHTML = messages[index];
         }
 
-        /* ================= INTERAKTIF FLIP CARD ENGINE (ETIKA & UNDANG-UNDANG) ================= */
+        /* ================= INTERAKTIF FLIP CARD ENGINE ================= */
         function flipEtiquetteCard(cardElement, index) {
             const sounds = [600, 750, 850, 950, 1100];
             playUISoundFX(sounds[index], 'triangle', 0.12);
             cardElement.classList.toggle('flipped');
         }
 
-        /* ================= INTERAKTIF JATI DIRI (SUBTOPIK B) ================= */
+        /* ================= INTERAKTIF JATI DIRI ================= */
         function showIdentityDetail(index) {
             const freqs = [587.33, 698.46, 880.00];
             playUISoundFX(freqs[index], 'sine', 0.12);
@@ -1194,7 +1209,7 @@
 
             q.options.forEach((opt, i) => {
                 const btn = document.createElement('button');
-                btn.className = "w-full text-left p-3 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 transition-all";
+                btn.className = "w-full text-left p-2.5 sm:p-3 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 transition-all text-xs sm:text-sm";
                 btn.innerText = `${String.fromCharCode(65 + i)}. ${opt}`;
                 btn.onclick = () => selectAnswer(i);
                 optContainer.appendChild(btn);
@@ -1212,11 +1227,11 @@
                 playUISoundFX(880, 'triangle', 0.2);
                 quizScore += 10;
                 document.getElementById('quiz-score').innerText = quizScore;
-                feedback.className = "p-3 rounded-xl text-xs font-bold text-center bg-emerald-950 border border-emerald-700 text-emerald-300";
+                feedback.className = "p-2.5 sm:p-3 rounded-xl text-xs font-bold text-center bg-emerald-950 border border-emerald-700 text-emerald-300";
                 feedback.innerText = "TAHNIAH! Jawapan anda TEPAT! 🎉";
             } else {
                 playUISoundFX(220, 'sawtooth', 0.2);
-                feedback.className = "p-3 rounded-xl text-xs font-bold text-center bg-rose-950 border border-rose-700 text-rose-300";
+                feedback.className = "p-2.5 sm:p-3 rounded-xl text-xs font-bold text-center bg-rose-950 border border-rose-700 text-rose-300";
                 feedback.innerText = `JAWAPAN KURANG TEPAT. Jawapan betul: ${q.options[q.ans]}`;
             }
 
@@ -1231,10 +1246,10 @@
             } else {
                 document.getElementById('quiz-card').innerHTML = `
                     <div class="text-center py-6">
-                        <i class="fa-solid fa-award text-5xl text-amber-400 mb-3"></i>
-                        <h4 class="font-bold text-xl text-white">TAHNIAH! KUIZ SELESAI</h4>
-                        <p class="text-xs text-slate-300 mt-2">Markah Keseluruhan Anda: <span class="text-amber-400 font-bold text-lg">${quizScore}/50</span></p>
-                        <button onclick="location.reload()" class="mt-4 px-6 py-2 bg-amber-400 text-slate-950 font-bold rounded-xl text-xs">Ulang Semula Kuiz</button>
+                        <i class="fa-solid fa-award text-4xl sm:text-5xl text-amber-400 mb-3"></i>
+                        <h4 class="font-bold text-lg sm:text-xl text-white">TAHNIAH! KUIZ SELESAI</h4>
+                        <p class="text-xs text-slate-300 mt-2">Markah Keseluruhan Anda: <span class="text-amber-400 font-bold text-base sm:text-lg">${quizScore}/50</span></p>
+                        <button onclick="location.reload()" class="mt-4 px-5 py-2 bg-amber-400 text-slate-950 font-bold rounded-xl text-xs">Ulang Semula Kuiz</button>
                     </div>
                 `;
             }
